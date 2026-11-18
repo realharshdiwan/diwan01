@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+    monospace;
+
+  /* One hue. The studio measures; it does not decorate. */
+  --color-field: #f2f1ec;
+  --color-paper: #faf9f5;
+  --color-plate: #e9e8df;
+  --color-ink: #0b3d2e;
+  --color-ink-2: #3e5b4e;
+  --color-ink-3: #506358;
+  --color-line: #d9d6c7;
+  --color-line-strong: #b4c0b5;
+
+  --radius-sm: 4px;
+  --radius-md: 10px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-field);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-field);
+  }
+
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Mono micro-label: every caption, index and unit on the site. */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ruler rails — the page is measured, not decorated. Desktop only. */
+.rail {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  pointer-events: none;
+  z-index: 0;
+}
+.rail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 7px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-line-strong) 0 1px,
+    transparent 1px 12px
+  );
+}
+.rail-left {
+  left: 0;
+}
+.rail-left::before {
+  left: 0;
+}
+.rail-right {
+  right: 0;
+}
+.rail-right::before {
+  right: 0;
+}
+@media (max-width: 1023px) {
+  .rail {
+    display: none;
+  }
+}
+
+/* Datum grid behind the instrument. */
+.datum {
+  background-image:
+    linear-gradient(to right, var(--color-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
+  background-size: 88px 88px;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal {
+  animation: rise 0.65s cubic-bezier(0.2, 0, 0, 1) both;
+}
+.reveal-1 {
+  animation-delay: 0.06s;
+}
+.reveal-2 {
+  animation-delay: 0.12s;
+}
+.reveal-3 {
+  animation-delay: 0.18s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    animation: none;
+  }
+}
