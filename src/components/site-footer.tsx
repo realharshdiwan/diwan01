@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { NAV, REGISTRATION, SITE } from "@/lib/site";
 import { Label } from "./ui";
 
@@ -18,13 +19,13 @@ export function SiteFooter() {
         <nav aria-label="Footer" className="flex flex-col gap-2.5">
           <Label>Index</Label>
           {NAV.map((item) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               className="text-[14px] leading-none text-ink-2 transition-colors hover:text-ink"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 

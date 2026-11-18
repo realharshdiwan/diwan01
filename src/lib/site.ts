@@ -18,7 +18,8 @@ export const REGISTRATION = {
 } as const;
 
 export const NAV = [
-  { label: "Studio", href: "#studio" },
-  { label: "Capabilities", href: "#capabilities" },
-  { label: "Contact", href: "#contact" },
+  { label: "Studio", href: "/#studio" },
+  { label: "Capabilities", href: "/#capabilities" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/#contact" },
 ] as const;

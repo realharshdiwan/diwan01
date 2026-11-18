@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { NAV } from "@/lib/site";
 
 /**
@@ -16,7 +17,7 @@ export function MobileNav() {
       <div className="absolute right-0 top-[calc(100%+0.75rem)] w-56 border border-line bg-paper p-5 shadow-[0_10px_30px_rgba(20,18,15,0.07)]">
         <nav aria-label="Mobile" className="flex flex-col gap-3">
           {NAV.map((item) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               onClick={(event) => {
@@ -26,7 +27,7 @@ export function MobileNav() {
               className="text-[15px] leading-none text-ink"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>

@@ -11,11 +11,7 @@ export function Hero() {
   return (
     <section className="hero gutter" aria-labelledby="hero-title">
       <div className="hero-util">
-        <Label className="hidden sm:inline">
-          Independent software studio · Bengaluru
-        </Label>
-
-        <div className="hero-toggle ml-auto">
+        <div className="hero-toggle rise rise-1 ml-auto">
           <span className="label mr-1">Layout</span>
           <input
             id="hero-layout-1"
@@ -42,7 +38,7 @@ export function Hero() {
           </h1>
         </div>
 
-        <nav className="hero-rail" aria-label="Index">
+        <nav className="hero-rail rise rise-4" aria-label="Index">
           <Label as="p">Index</Label>
           <ol className="mt-4">
             {INDEX.map((item) => (
@@ -58,14 +54,14 @@ export function Hero() {
           </ol>
         </nav>
 
-        <p className="statement hero-statement">
+        <p className="statement hero-statement rise rise-3">
           Diwan Mercantile is an independent software studio in Bengaluru. We
           build web systems, internal tools, and automation for the part of the
           business nobody photographs.
         </p>
       </div>
 
-      <div className="hero-foot">
+      <div className="hero-foot rise rise-5">
         <Label>{REGISTRATION.locality}</Label>
         <a
           href={`mailto:${SITE.contactEmail}`}

@@ -13,8 +13,9 @@ photography, no case studies, and no numbers we cannot stand behind.
 
 Next.js 16.3.4 (App Router, Turbopack) · React 19 · TypeScript · Tailwind v4.
 **Instrument Sans** (display and body) and **JetBrains Mono** (labels only) via
-`next/font`. No UI library. One client component, the native `<details>` mobile
-menu; the layout toggle is CSS only.
+`next/font`. No UI library. Two routes (`/`, `/careers`) plus a branded 404.
+One client component, the native `<details>` mobile menu; the layout toggle is
+CSS only.
 
 ## Run
 
@@ -51,8 +52,9 @@ Rules:
 - One accent, on hover only. No gradients, no decorative shadows.
 - `.label` is the only caption style: 10px mono, uppercase, 0.14em tracking.
 - `.plate` is the only ornament: a 44px bordered square holding an index number.
-- Motion is two 0.15–0.18s hover transitions. Everything else is static and
-  disabled under `prefers-reduced-motion`.
+- Motion is one arrival: the wordmark settles, then statement, rail, and foot
+  rise 7px in sequence. Duration is under a second, it runs once, and it never
+  blocks the page. All of it is skipped under `prefers-reduced-motion`.
 - Contrast floor: 4.5:1 for all text.
 - The hero grid is one `grid-template-areas` block; the `1 / 2` toggle flips
   those areas via `:has(#hero-layout-2:checked)`. No script, no layout shift.
@@ -62,22 +64,35 @@ Rules:
 ```
 src/app/layout.tsx             metadata, fonts, skip link, JSON-LD
 src/app/page.tsx               Hero → Studio → Capabilities → Contact
+src/app/careers/page.tsx       Careers: what we look for, what to send
+src/app/not-found.tsx          branded 404
+src/app/sitemap.ts             /  and  /careers
+src/app/robots.ts              allow all, point at sitemap
 src/app/icon.svg               favicon
-src/app/globals.css            tokens, base, hero, shell
+src/app/globals.css            tokens, base, hero, shell, motion
 src/components/hero.tsx        wordmark, statement, index rail, toggle
 src/components/ui.tsx          cx, Label
 src/components/mobile-nav.tsx  mobile menu (only client component)
-src/components/site-header.tsx
+src/components/site-header.tsx brand, nav, menu
 src/components/site-footer.tsx
 src/lib/site.ts                site constants, registrations, nav
 ```
 
-## Homepage order
+Nav uses absolute paths (`/#studio`, `/careers`) so the same header works on
+both routes; `next/link` handles the scroll to the section.
 
-Hero → Studio (positioning and facts) → Capabilities (four items) → Contact →
-Footer. There is no Work section until there is work to show.
+## Pages
+
+**Home** — Hero → Studio (positioning and facts) → Capabilities (four items) →
+Contact → Footer. There is no Work section until there is work to show.
+
+**Careers** — one statement, four things the studio looks for, three things to
+send, one email link. No invented roles and no job-description theatre: the
+page reads as an open application and stays true whether or not a role exists.
 
 ## Next
 
 Real project pages when there are real projects. Until then, the index rail
-points at capabilities, not at invented case studies.
+points at capabilities, not at invented case studies. A contact form endpoint
+is the remaining piece of infrastructure; mailto is deliberate until there is
+somewhere for submissions to go.
