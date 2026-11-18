@@ -1,17 +1,20 @@
 # Diwan Mercantile
 
-Independent software studio, Bengaluru. Site built on the **48 Columns**
-direction: a thermal-receipt system — character grid, dot-matrix display type,
-hairline rules, no images. The studio is the subject; Parchi is one line on the
-slip.
+Independent software studio, Bengaluru. The site is the studio: a warm paper
+field, one oversized wordmark, and enough silence to let the words do the work.
+Parchi is one line in the footer.
 
-The rejected "Instrument" build is preserved on branch `instrument`.
+Structure follows [by-kin.com](https://by-kin.com) — full-bleed wordmark as the
+image, nav top-right, statement mid-left, an index rail at the bottom left, one
+`1 / 2` layout toggle. The words, palette, and type are our own. No
+photography, no case studies, and no numbers we cannot stand behind.
 
 ## Stack
 
-Next.js 16.3.4 (App Router, Turbopack) · React 19 · TypeScript · Tailwind v4
-tokens · Handjet (display) + JetBrains Mono (body) via `next/font`. No UI
-library. One client component (the mobile menu); the rest is static HTML.
+Next.js 16.3.4 (App Router, Turbopack) · React 19 · TypeScript · Tailwind v4.
+**Instrument Sans** (display and body) and **JetBrains Mono** (labels only) via
+`next/font`. No UI library. One client component, the native `<details>` mobile
+menu; the layout toggle is CSS only.
 
 ## Run
 
@@ -29,51 +32,52 @@ inline.
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--color-field` | `#f7f5ef` | Thermal paper |
-| `--color-paper` | `#fffdf7` | Receipts, raised slips |
-| `--color-ink` | `#14120f` | Text, solid buttons, rules |
-| `--color-ink-2` | `#5f584d` | Body copy (6.4:1 on field) |
-| `--color-ink-3` | `#6b6459` | Labels and captions (5.4:1 on field) |
-| `--color-line` | `#dad5c8` | Hairlines |
-| `--color-line-soft` | `#e8e3d6` | Table rules |
-| `--color-accent` | `#b32a20` | Status only — `IN DEV`, `COUNTER OPEN` (4.8:1) |
+| `--color-field` | `#f4f2ed` | Page field |
+| `--color-paper` | `#fffdf7` | Plates, menu panel |
+| `--color-ink` | `#14120f` | Text, wordmark, rules |
+| `--color-ink-2` | `#5f584d` | Body copy |
+| `--color-ink-3` | `#6b6459` | Labels and captions (5.2:1 on field) |
+| `--color-line` | `#dad5c8` | Section rules, plate borders |
+| `--color-line-2` | `#e7e2d6` | Secondary rules |
+| `--color-accent` | `#b32a20` | Link and email hover only |
 
-Type: **Handjet** for display only, never below 24px, always uppercase.
-**JetBrains Mono** for everything else. Body measure is capped at 62ch.
+Type: **Instrument Sans** at 400, 450 (statement), and 600 (wordmark).
+**JetBrains Mono** at 10–11px for `.label` and registration numbers. Body
+measure is capped at 46–62ch.
 
 Rules:
 
-- No images, ever. Diagrams are ASCII.
-- One accent, status only. No gradients, no shadows, no textures.
-- `.label` is the only caption style: 10px, uppercase, 0.16em tracking.
-- `.leader` is the only list ornament: dot leaders, as on a printed invoice.
-- `.ascii` sits on a fixed character cell — ASCII diagrams use `+ - |` only,
-  because the `next/font` Latin subset has no box-drawing glyphs and would
-  fall back to a mismatched face.
-- Motion is one 0.5s feed, disabled under `prefers-reduced-motion`.
+- No images. The wordmark is the hero image; it is cropped by the viewport.
+- One accent, on hover only. No gradients, no decorative shadows.
+- `.label` is the only caption style: 10px mono, uppercase, 0.14em tracking.
+- `.plate` is the only ornament: a 44px bordered square holding an index number.
+- Motion is two 0.15–0.18s hover transitions. Everything else is static and
+  disabled under `prefers-reduced-motion`.
 - Contrast floor: 4.5:1 for all text.
+- The hero grid is one `grid-template-areas` block; the `1 / 2` toggle flips
+  those areas via `:has(#hero-layout-2:checked)`. No script, no layout shift.
 
 ## Structure
 
 ```
-src/app/layout.tsx        metadata, fonts, skip link, JSON-LD
-src/app/page.tsx          homepage sections
-src/app/icon.svg          favicon
-src/app/globals.css       tokens, base, components, motion
-src/components/ui.tsx     Label, Btn, SectionHead
-src/components/receipt.tsx    hero slip (DOM, not an image)
+src/app/layout.tsx             metadata, fonts, skip link, JSON-LD
+src/app/page.tsx               Hero → Studio → Capabilities → Contact
+src/app/icon.svg               favicon
+src/app/globals.css            tokens, base, hero, shell
+src/components/hero.tsx        wordmark, statement, index rail, toggle
+src/components/ui.tsx          cx, Label
 src/components/mobile-nav.tsx  mobile menu (only client component)
 src/components/site-header.tsx
 src/components/site-footer.tsx
-src/lib/site.ts           site constants, registrations, nav
+src/lib/site.ts                site constants, registrations, nav
 ```
 
 ## Homepage order
 
-Hero (headline + counter slip) → spec strip → 01 The ledger →
-02 Capabilities → 03 Method → 04 The lab → 05 Counter open → Footer.
+Hero → Studio (positioning and facts) → Capabilities (four items) → Contact →
+Footer. There is no Work section until there is work to show.
 
 ## Next
 
-Phase 1 adds `/studio`, `/capabilities`, `/work`, `/notes`, and a
-Resend-backed contact route. Phase 2 adds the Parchi page and case studies.
+Real project pages when there are real projects. Until then, the index rail
+points at capabilities, not at invented case studies.

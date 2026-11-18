@@ -1,19 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Handjet, JetBrains_Mono } from "next/font/google";
+import { Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { REGISTRATION, SITE } from "@/lib/site";
 
-const mono = JetBrains_Mono({
+const sans = Instrument_Sans({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  variable: "--font-instrument",
   display: "swap",
 });
 
-const dot = Handjet({
+const mono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-handjet",
+  variable: "--font-jetbrains",
   display: "swap",
 });
 
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     description: SITE.description,
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Diwan Mercantile — Independent software studio, Bengaluru",
     description: SITE.description,
   },
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f5ef",
+  themeColor: "#f4f2ed",
   width: "device-width",
   initialScale: 1,
 };
@@ -63,7 +63,12 @@ export default function RootLayout({
     url: SITE.url,
     description: SITE.description,
     email: SITE.contactEmail,
-    address: { "@type": "PostalAddress", addressCountry: "IN" },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Bengaluru",
+      addressRegion: "Karnataka",
+      addressCountry: "IN",
+    },
     identifier: [
       { "@type": "PropertyValue", name: "GSTIN", value: REGISTRATION.gstin },
       { "@type": "PropertyValue", name: "Udyam", value: REGISTRATION.udyam },
@@ -71,7 +76,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en-IN" className={`${mono.variable} ${dot.variable}`}>
+    <html lang="en-IN" className={`${sans.variable} ${mono.variable}`}>
       <body className="min-h-dvh">
         <a
           href="#main"
