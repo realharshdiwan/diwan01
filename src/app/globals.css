@@ -1,36 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo,
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, Menlo,
     monospace;
+  --font-dot: var(--font-handjet), var(--font-jetbrains), monospace;
 
-  /* One hue. The studio measures; it does not decorate. */
-  --color-field: #f2f1ec;
-  --color-paper: #faf9f5;
-  --color-plate: #e9e8df;
-  --color-ink: #0b3d2e;
-  --color-ink-2: #3e5b4e;
-  --color-ink-3: #506358;
-  --color-line: #d9d6c7;
-  --color-line-strong: #b4c0b5;
-
-  --radius-sm: 4px;
-  --radius-md: 10px;
+  /* Thermal paper, printer ink, receipt red. */
+  --color-field: #f7f5ef;
+  --color-paper: #fffdf7;
+  --color-ink: #14120f;
+  --color-ink-2: #5f584d;
+  --color-ink-3: #6b6459;
+  --color-line: #dad5c8;
+  --color-line-soft: #e8e3d6;
+  --color-accent: #b32a20;
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 4.5rem;
   }
 
   body {
     background-color: var(--color-field);
     color: var(--color-ink);
-    font-family: var(--font-sans);
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.65;
+    letter-spacing: 0.005em;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -43,7 +42,6 @@
   :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
     outline: 2px solid var(--color-ink);
     outline-offset: 3px;
-    border-radius: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -53,71 +51,65 @@
   }
 }
 
-/* Mono micro-label: every caption, index and unit on the site. */
-.mono-label {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  line-height: 1.2;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-}
+@layer components {
+  /* Labels: the small caps of the character grid. */
+  .label {
+    font-size: 10px;
+    line-height: 1.4;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
 
-.tnum {
-  font-variant-numeric: tabular-nums;
-}
+  /* Dot leaders, as on a printed menu or invoice. */
+  .leader {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5ch;
+  }
+  .leader > .fill {
+    flex: 1;
+    min-width: 1.5ch;
+    border-bottom: 1.5px dotted var(--color-line);
+    transform: translateY(-0.28em);
+  }
 
-/* Ruler rails — the page is measured, not decorated. Desktop only. */
-.rail {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 20px;
-  pointer-events: none;
-  z-index: 0;
-}
-.rail::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 7px;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    var(--color-line-strong) 0 1px,
-    transparent 1px 12px
-  );
-}
-.rail-left {
-  left: 0;
-}
-.rail-left::before {
-  left: 0;
-}
-.rail-right {
-  right: 0;
-}
-.rail-right::before {
-  right: 0;
-}
-@media (max-width: 1023px) {
-  .rail {
-    display: none;
+  /* Perforation — torn edge, not a texture. */
+  .perf {
+    border-top: 2px dashed var(--color-line);
+  }
+
+  /* Section rule. */
+  .rule {
+    border-top: 1px solid var(--color-line);
+  }
+
+  /* ASCII drawings sit on a fixed character cell and never scale. */
+  .ascii {
+    font-family: var(--font-mono);
+    font-variant-ligatures: none;
+    letter-spacing: 0;
+    line-height: 1.15;
+    white-space: pre;
+    tab-size: 1;
+  }
+
+  /* Halftone field: printer dots, very low density. */
+  .halftone {
+    background-image: radial-gradient(
+      circle,
+      var(--color-ink) 1px,
+      transparent 1.1px
+    );
+    background-size: 7px 7px;
   }
 }
 
-/* Datum grid behind the instrument. */
-.datum {
-  background-image:
-    linear-gradient(to right, var(--color-line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-line) 1px, transparent 1px);
-  background-size: 88px 88px;
-}
-
-@keyframes rise {
+/* ── The one motion: the slip feeds out of the printer. ─── */
+@keyframes feed {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(-7px);
   }
   to {
     opacity: 1;
@@ -125,21 +117,28 @@
   }
 }
 
-.reveal {
-  animation: rise 0.65s cubic-bezier(0.2, 0, 0, 1) both;
-}
-.reveal-1 {
-  animation-delay: 0.06s;
-}
-.reveal-2 {
-  animation-delay: 0.12s;
-}
-.reveal-3 {
-  animation-delay: 0.18s;
+@layer components {
+  .feed {
+    animation: feed 0.5s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+  .feed-1 {
+    animation-delay: 0.06s;
+  }
+  .feed-2 {
+    animation-delay: 0.14s;
+  }
+  .feed-3 {
+    animation-delay: 0.22s;
+  }
+  .feed-4 {
+    animation-delay: 0.3s;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  .feed {
     animation: none;
+    opacity: 1;
+    transform: none;
   }
 }

@@ -2,7 +2,7 @@ export const SITE = {
   name: "Diwan Mercantile",
   tagline: "Independent software studio, Bengaluru",
   description:
-    "Diwan Mercantile is an independent software studio in Bengaluru. We design and build web systems, internal tools, and automation — to a written standard, and we hand over the code.",
+    "Diwan Mercantile is an independent software studio in Bengaluru. We design and build web systems, internal tools, and automation for the stockroom, the ledger, and the counter — and we hand over the code.",
   url: "https://www.diwanmercantile.in",
   locale: "en_IN",
   contactEmail: "diwanmercantileindia@gmail.com",
@@ -19,7 +19,7 @@ export const REGISTRATION = {
 } as const;
 
 export const NAV = [
-  { label: "Standard", href: "#standard" },
+  { label: "Ledger", href: "#ledger" },
   { label: "Capabilities", href: "#capabilities" },
   { label: "Method", href: "#method" },
   { label: "Contact", href: "#contact" },

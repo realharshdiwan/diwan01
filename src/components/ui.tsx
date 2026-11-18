@@ -4,40 +4,47 @@ export function cx(...parts: Array<string | false | null | undefined>) {
   return parts.filter(Boolean).join(" ");
 }
 
-type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
-  variant?: "solid" | "ghost" | "inverse";
-  children: ReactNode;
-};
-
-export function Button({
-  variant = "solid",
-  className,
-  children,
-  ...rest
-}: ButtonProps) {
-  const base =
-    "inline-flex h-11 items-center justify-center gap-2 rounded-[4px] px-5 text-[13px] font-medium tracking-[0.01em] transition-colors duration-150";
-  const variants = {
-    solid: "bg-ink text-field hover:bg-ink-2",
-    ghost: "border border-line-strong text-ink hover:border-ink hover:bg-paper",
-    inverse: "bg-field text-ink hover:bg-paper",
-  } as const;
-
-  return (
-    <a className={cx(base, variants[variant], className)} {...rest}>
-      {children}
-    </a>
-  );
-}
-
-export function Mono({
+export function Label({
   children,
   className,
 }: {
   children: ReactNode;
   className?: string;
 }) {
-  return <span className={cx("mono-label", className)}>{children}</span>;
+  return <span className={cx("label", className)}>{children}</span>;
+}
+
+type BtnProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+  variant?: "solid" | "outline";
+  children: ReactNode;
+};
+
+/** Bracketed control — the only button shape on the site. */
+export function Btn({
+  variant = "solid",
+  className,
+  children,
+  ...rest
+}: BtnProps) {
+  const base =
+    "inline-flex items-center gap-2 px-4 py-2.5 text-[12px] uppercase tracking-[0.1em] transition-colors duration-150";
+  const variants = {
+    solid: "bg-ink text-field hover:bg-ink-2",
+    outline:
+      "border border-ink text-ink hover:bg-ink hover:text-field",
+  } as const;
+
+  return (
+    <a className={cx(base, variants[variant], className)} {...rest}>
+      <span aria-hidden="true" className="opacity-60">
+        [
+      </span>
+      {children}
+      <span aria-hidden="true" className="opacity-60">
+        ]
+      </span>
+    </a>
+  );
 }
 
 export function SectionHead({
@@ -52,44 +59,19 @@ export function SectionHead({
   id?: string;
 }) {
   return (
-    <div id={id} className="border-t border-line-strong pt-5">
-      <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between">
-        <div className="flex items-baseline gap-4">
-          <Mono className="text-ink-3">{index}</Mono>
-          <h2 className="text-[clamp(1.5rem,2.6vw,2rem)] font-medium tracking-[-0.02em]">
-            {title}
-          </h2>
-        </div>
+    <div id={id} className="rule pt-4">
+      <div className="flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
+        <h2 className="label text-[12px] tracking-[0.14em] text-ink">
+          <span className="text-ink-3">{index}</span>
+          <span className="mx-2 text-ink-3">/</span>
+          {title}
+        </h2>
         {note ? (
-          <p className="max-w-[34ch] text-[13px] leading-relaxed text-ink-2 md:text-right">
+          <p className="max-w-[46ch] text-[12px] leading-relaxed text-ink-3 md:text-right">
             {note}
           </p>
         ) : null}
       </div>
-    </div>
-  );
-}
-
-export function Plate({
-  label,
-  value,
-  className,
-}: {
-  label: string;
-  value: string;
-  className?: string;
-}) {
-  return (
-    <div
-      className={cx(
-        "rounded-[3px] border border-line bg-paper/95 px-3 py-2 backdrop-blur-[1px]",
-        className,
-      )}
-    >
-      <Mono className="block text-[9px] text-ink-3">{label}</Mono>
-      <span className="tnum mt-1 block font-mono text-[11px] tracking-[0.02em] text-ink">
-        {value}
-      </span>
     </div>
   );
 }
